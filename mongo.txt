@@ -1,0 +1,134 @@
+====================== Create a database called "contact" ============================
+> use contact
+switched to db contact
+
+====================== Create a collection called "contactlist" ======================
+> db.createCollection('contactlist')
+{ "ok" : 1 }
+> show collections
+
+ 
+====================== "Insert these documents  in "contactlist" ======================
+> db.contactlist.insert({LastName: "Ben Lahmer", FirstName: "Fares", Email: "fares@gmail.com", age:26})
+WriteResult({ "nInserted" : 1 })
+
+> db.contactlist.insert({LastName: "Fatnassi", FirstName: "Sarra", Email: "sarra.f@gmail.com", age:40})
+WriteResult({ "nInserted" : 1 })
+
+> db.contactlist.insert({LastName: "Ben Yahia", FirstName: "Rym", age:4})
+WriteResult({ "nInserted" : 1 })
+
+> db.contactlist.insert({LastName: "Cherif", FirstName: "Sami", age:3})
+WriteResult({ "nInserted" : 1 })
+
+> db.contactlist.count()
+5
+
+
+====================== "Display all the information " ======================
+> db.contactlist.find().pretty()
+{
+        "_id" : ObjectId("62bb8bc169b44985315ea7e0"),
+        "LastName" : "Ben Lahmer",
+        "FirstName" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("62bb8cd069b44985315ea7e1"),
+        "LastName" : "Kefi",
+        "FirstName" : "Seif",
+        "Email" : "kefi@gmail.com",
+        "age" : 15
+}
+{
+        "_id" : ObjectId("62bb8e6a69b44985315ea7e2"),
+        "LastName" : "Fatnassi",
+        "FirstName" : "Sarra",
+        "Email" : "sarra.f@gmail.com",
+        "age" : 40
+}
+{
+        "_id" : ObjectId("62bb8ea969b44985315ea7e3"),
+        "LastName" : "Ben Yahia",
+        "FirstName" : "Rym",
+        "age" : 4
+}
+{
+        "_id" : ObjectId("62bb8ec169b44985315ea7e4"),
+        "LastName" : "Cherif",
+        "FirstName" : "Sami",
+        "age" : 3
+}
+
+
+====================== "Display all the information about only one person using his ID" ======================
+
+> db.contactlist.find({_id : ObjectId("62bb8bc169b44985315ea7e0")}).pretty()
+{
+        "_id" : ObjectId("62bb8bc169b44985315ea7e0"),
+        "LastName" : "Ben Lahmer",
+        "FirstName" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+====================== "Display all the contacts with an age >18" ======================
+
+> db.contactlist.find({"age": {$gt:18}}).pretty()
+{
+        "_id" : ObjectId("62bb8bc169b44985315ea7e0"),
+        "LastName" : "Ben Lahmer",
+        "FirstName" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("62bb8e6a69b44985315ea7e2"),
+        "LastName" : "Fatnassi",
+        "FirstName" : "Sarra",
+        "Email" : "sarra.f@gmail.com",
+        "age" : 40
+}
+>
+
+====================== "Display all the contacts with an age>18 and name containing "ah"" ======================
+
+
+> db.contactlist.find({$and:[{"age": {$gt:18}},{"lastName" : {"$regex" : "ah"}}]}).pretty()
+>
+
+
+====================== "Change the contact's first name from"Kefi Seif" to "Kefi Anis"." ======================
+> db.contactlist.update({LastName : "Kefi"},{$set:{FirstName : "Anis"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+
+====================== "Delete the contacts that are aged under <5." ======================
+> db.contactlist.remove({age:{$lt:5}})
+WriteResult({ "nRemoved" : 2 })
+>
+
+====================== "Display all of the contacts list." ======================
+> db.contactlist.find().pretty()
+{
+        "_id" : ObjectId("62bb8bc169b44985315ea7e0"),
+        "LastName" : "Ben Lahmer",
+        "FirstName" : "Fares",
+        "Email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("62bb8cd069b44985315ea7e1"),
+        "LastName" : "Kefi",
+        "FirstName" : "Anis",
+        "Email" : "kefi@gmail.com",
+        "age" : 15
+}
+{
+        "_id" : ObjectId("62bb8e6a69b44985315ea7e2"),
+        "LastName" : "Fatnassi",
+        "FirstName" : "Sarra",
+        "Email" : "sarra.f@gmail.com",
+        "age" : 40
+}
+>
